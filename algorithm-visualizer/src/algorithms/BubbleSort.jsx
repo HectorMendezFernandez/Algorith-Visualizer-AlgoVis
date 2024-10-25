@@ -4,7 +4,6 @@ import {animated} from "react-spring";
 
 const BubbleSort = () => {
     const [array, setArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
-
     const bubbleSort = (arr) => {
         let sortedArray = [...arr];
         for(let i = 0; i <= sortedArray.length; i++) {

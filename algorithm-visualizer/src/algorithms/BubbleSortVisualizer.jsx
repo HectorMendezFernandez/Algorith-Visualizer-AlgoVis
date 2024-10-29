@@ -30,28 +30,21 @@ const BubbleSortVisualizer = () => {
     return (
          <div
            style={{
-           gap: '10px',
+           display: 'grid',
            marginTop: '20px',
+           marginLeft: '20px',
            transition: 'transform 0.3s ease', // Suaviza la transición
            transform: isHovered ? 'scale(1.05)' : 'scale(1)', // Escala al hacer hover
            }}
            onMouseEnter={() => setIsHovered(true)} // Activa el hover al entrar
            onMouseLeave={() => setIsHovered(false)} // Desactiva el hover al salir
         > 
-        <h1>Bubble Sort Visualization</h1>
-          {/* input to show the range input */}
-          <div>
-          <input
-            type="range"
-            min="100"
-            max="2000"
-            value={speed}
-            onChange={(e) => setSpeed(Number(e.target.value))}
-          />
-          <span>{speed} ms</span>
-          </div>
-
-          <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+        {/* Title */}
+        <div style={{ marginBottom: '50px', textAlign: 'center' }}>
+          <h1>Bubble Sort Visualization</h1>
+        </div>
+         {/* Animation Area */}
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>
             {array.map((value, index) => (
               <animated.div
                 key={index}
@@ -66,6 +59,20 @@ const BubbleSortVisualizer = () => {
               />
             ))}
           </div>
+          {/* input to show the range input */}
+          <div style={{display: 'flex', justifyContent: 'center', marginBottom: '10px'}}>
+          <label htmlFor="velocity">Velocity:</label>
+          <input
+          
+            type="range"
+            min="100"
+            max="2000"
+            value={speed}
+            onChange={(e) => setSpeed(Number(e.target.value))}
+          />
+          <span>{speed} ms</span>
+          </div>
+          {/* Button to sort the array */}
           <button onClick={handleSort}>Sort</button>
         </div>
       );

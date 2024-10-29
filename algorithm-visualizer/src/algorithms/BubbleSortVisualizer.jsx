@@ -1,21 +1,29 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { useSpring, animated } from "react-spring";
 
-const BubbleSortVisualizer = () => {
-    const [array, setArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
-    const [speed, setSpeed] = useState(1000); // Velocidad inicial en milisegundos
+// eslint-disable-next-line react/prop-types
+const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
+    const [array, setArray] = useState(globalArray || [5, 3, 8, 1, 2, 4, 6, 7]);
+    const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [isHovered, setIsHovered] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(null); // Estado para el índice actual evaluado
+    const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
+    
+  // Update local array when globalArray changes
+  useEffect(() => {
+    setArray(globalArray);
+    setSpeed(globalSpeed); // Update speed as well, if needed
+  }, [globalArray, globalSpeed]);
+
      // Function to sort the array using Bubble Sort
      const handleSort = async () => {
       let sortedArray = [...array];
       for (let i = 0; i < sortedArray.length - 1; i++) {
         for (let j = 0; j < sortedArray.length - i - 1; j++) {
-          setCurrentIndex(j+1); // Actualiza el índice actual evaluado
+          setCurrentIndex(j+1); //Update the current index being evaluated
           if (sortedArray[j] > sortedArray[j + 1]) {
             [sortedArray[j], sortedArray[j + 1]] = [sortedArray[j + 1], sortedArray[j]];
             setArray([...sortedArray]);
-            await new Promise(resolve => setTimeout(resolve, speed)); // Pausa para animación
+            await new Promise(resolve => setTimeout(resolve, speed)); // Pause for animation
           }
         }
       }
@@ -72,7 +80,7 @@ const BubbleSortVisualizer = () => {
           </div>
           {/* input to show the range input */}
           <div style={{display: 'flex', justifyContent: 'center', marginBottom: '10px'}}>
-          <label htmlFor="velocity">Velocity:</label>
+          <label htmlFor="velocity">Speed:</label>
           <input
           
             type="range"
@@ -85,7 +93,7 @@ const BubbleSortVisualizer = () => {
           </div>
           <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
           {/* Button to sort the array */}
-          <button onClick={handleSort}>Sort</button>
+          <button onClick={handleSort} className="sort-btn">Sort</button>
           {/* Button to generate a new array */}
           <button onClick={generateArray}>Restart</button>
           </div>

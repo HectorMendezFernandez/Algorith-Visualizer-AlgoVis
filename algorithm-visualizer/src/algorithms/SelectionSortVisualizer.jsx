@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 
-
-const SelectionSortVisualizer = () => {
-    const [array, setArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
-    const [speed, setSpeed] = useState(1000); //Initial speed in milliseconds
+// eslint-disable-next-line react/prop-types
+const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
+    const [array, setArray] = useState(globalArray || [5, 3, 8, 1, 2, 4, 6, 7]);
+    const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
     const [isHovered, setIsHovered] = useState(false);
+
+    // Update local array when globalArray changes
+  useEffect(() => {
+    setArray(globalArray);
+    setSpeed(globalSpeed); // Update speed as well, if needed
+  }, [globalArray, globalSpeed]);
+
     // Function to sort the array using Selection Sort
     const handleSort = async () => {
         let sortedArray = [...array];
@@ -84,7 +91,7 @@ const SelectionSortVisualizer = () => {
           </div>
           <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
           {/* Button to sort the array */}
-          <button onClick={handleSort}>Sort</button>
+          <button onClick={handleSort} className="sort-btn">Sort</button>
           {/* Button to generate a new array */}
           <button onClick={generateArray}>Restart</button>
           </div>

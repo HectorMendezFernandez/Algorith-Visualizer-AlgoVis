@@ -5,9 +5,7 @@ import { useSpring, animated } from "react-spring";
 const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
     const [array, setArray] = useState(globalArray || [5, 3, 8, 1, 2, 4, 6, 7]);
     const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
-    const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
-    
   // Update local array when globalArray changes
   useEffect(() => {
     setArray(globalArray);
@@ -52,11 +50,7 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
            display: 'grid',
            marginTop: '5px',
            marginLeft: '20px',
-           transition: 'transform 0.3s ease', // Suaviza la transición
-           transform: isHovered ? 'scale(1.05)' : 'scale(1)', // Escala al hacer hover
            }}
-           onMouseEnter={() => setIsHovered(true)} // Activa el hover al entrar
-           onMouseLeave={() => setIsHovered(false)} // Desactiva el hover al salir
         > 
         {/* Title */}
         <div style={{ marginBottom: '60px', textAlign: 'center' }}>

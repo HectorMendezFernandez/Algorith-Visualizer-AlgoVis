@@ -7,7 +7,6 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
     const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
-    const [isHovered, setIsHovered] = useState(false);
 
     // Update local array when globalArray changes
   useEffect(() => {
@@ -60,11 +59,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
         display: 'grid',
         marginTop: '5px',
         marginLeft: '20px',
-        transition: 'transform 0.3s ease', // Suaviza la transición
-        transform: isHovered ? 'scale(1.05)' : 'scale(1)', // Escala al hacer hover
         }}
-        onMouseEnter={() => setIsHovered(true)} // Activa el hover al entrar
-        onMouseLeave={() => setIsHovered(false)} // Desactiva el hover al salir
      > 
      {/* Title */}
           <div style={{ marginBottom: '60px', textAlign: 'center' }}>

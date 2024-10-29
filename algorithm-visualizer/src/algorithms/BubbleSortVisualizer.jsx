@@ -5,20 +5,31 @@ const BubbleSortVisualizer = () => {
     const [array, setArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
     const [speed, setSpeed] = useState(1000); // Velocidad inicial en milisegundos
     const [isHovered, setIsHovered] = useState(false);
-    
-     // Función para ordenar con Bubble Sort y actualizar el array con retraso
+    const [currentIndex, setCurrentIndex] = useState(null); // Estado para el índice actual evaluado
+     // Function to sort the array using Bubble Sort
      const handleSort = async () => {
-        let sortedArray = [...array];
-        for(let i = 0; i < sortedArray.length; i++) {
-            for (let j = 0; j < sortedArray.length - i - 1; j++) {
-                if (sortedArray[j] > sortedArray[j + 1]) {
-                  [sortedArray[j], sortedArray[j + 1]] = [sortedArray[j + 1], sortedArray[j]];
-                  setArray([...sortedArray]);
-                  await new Promise(resolve => setTimeout(resolve, speed)); // stops waiting the animation
-                }
-            }
+      let sortedArray = [...array];
+      for (let i = 0; i < sortedArray.length - 1; i++) {
+        for (let j = 0; j < sortedArray.length - i - 1; j++) {
+          setCurrentIndex(j+1); // Actualiza el índice actual evaluado
+          if (sortedArray[j] > sortedArray[j + 1]) {
+            [sortedArray[j], sortedArray[j + 1]] = [sortedArray[j + 1], sortedArray[j]];
+            setArray([...sortedArray]);
+            await new Promise(resolve => setTimeout(resolve, speed)); // Pausa para animación
+          }
         }
+      }
+      setCurrentIndex(null); // Restaura el índice después del ordenamiento
     };
+    //Function to generate a new array
+    const generateArray = () => {
+        let newArray = [];
+        for (let i = 0; i < 8; i++) {
+          newArray.push(Math.floor(Math.random() * 10) + 1);
+        }
+        setArray(newArray);
+      };
+
 
     //Properties for animation using React Spring
     const animatedProps = useSpring({
@@ -47,15 +58,15 @@ const BubbleSortVisualizer = () => {
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>
             {array.map((value, index) => (
               <animated.div
-                key={index}
-                style={{
-                  ...animatedProps,
-                  width: '30px',
-                  height: `${value * 10}px`,
-                  backgroundColor: 'teal',
-                  display: 'inline-block',
-                  marginLeft: '5px',
-                }}
+              key={index}
+              style={{
+                ...animatedProps,
+                width: '30px',
+                height: `${value * 10}px`,
+                backgroundColor: index === currentIndex ? 'orange' : 'teal', // Cambia el color si es el índice actual
+                display: 'inline-block',
+                marginLeft: '5px',
+              }}
               />
             ))}
           </div>
@@ -72,8 +83,12 @@ const BubbleSortVisualizer = () => {
           />
           <span>{speed} ms</span>
           </div>
+          <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
           {/* Button to sort the array */}
           <button onClick={handleSort}>Sort</button>
+          {/* Button to generate a new array */}
+          <button onClick={generateArray}>Restart</button>
+          </div>
         </div>
       );
     };

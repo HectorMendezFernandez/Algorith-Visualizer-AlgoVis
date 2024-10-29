@@ -7,7 +7,7 @@ const SelectionSortVisualizer = () => {
     const [speed, setSpeed] = useState(1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
-
+    const [isHovered, setIsHovered] = useState(false);
     // Function to sort the array using Selection Sort
     const handleSort = async () => {
         let sortedArray = [...array];
@@ -46,5 +46,50 @@ const SelectionSortVisualizer = () => {
         to: { transform: `translateY(-${10 * array.length}px)` },
         config: { duration: speed },
     });
-}
+
+    return (
+        <div
+        style={{
+        display: 'grid',
+        marginTop: '5px',
+        marginLeft: '20px',
+        transition: 'transform 0.3s ease', // Suaviza la transición
+        transform: isHovered ? 'scale(1.05)' : 'scale(1)', // Escala al hacer hover
+        }}
+        onMouseEnter={() => setIsHovered(true)} // Activa el hover al entrar
+        onMouseLeave={() => setIsHovered(false)} // Desactiva el hover al salir
+     > 
+     {/* Title */}
+          <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+          <h1>Selection Sort Visualization</h1>
+        </div>
+          <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "20px" }}>
+            {array.map((value, index) => (
+              <animated.div
+                key={index}
+                style={{
+                  ...animatedProps,
+                  width: "30px",
+                  height: `${value * 10}px`,
+                  backgroundColor:
+                    index === currentIndex ? "orange" : index === minIndex ? "purple" : "teal",
+                }}
+              />
+            ))}
+          </div>
+          <div>
+            <label>Speed:</label>
+            <input type="range" min="100" max="2000" value={speed} onChange={(e) => setSpeed(Number(e.target.value))} />
+            <span>{speed} ms</span>
+          </div>
+          <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
+          {/* Button to sort the array */}
+          <button onClick={handleSort}>Sort</button>
+          {/* Button to generate a new array */}
+          <button onClick={generateArray}>Restart</button>
+          </div>
+        </div>
+    );
+};
+
 export default SelectionSortVisualizer;

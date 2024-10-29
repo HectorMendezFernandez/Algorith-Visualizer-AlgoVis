@@ -42,7 +42,7 @@ const BubbleSortVisualizer = () => {
          <div
            style={{
            display: 'grid',
-           marginTop: '20px',
+           marginTop: '5px',
            marginLeft: '20px',
            transition: 'transform 0.3s ease', // Suaviza la transición
            transform: isHovered ? 'scale(1.05)' : 'scale(1)', // Escala al hacer hover
@@ -51,7 +51,7 @@ const BubbleSortVisualizer = () => {
            onMouseLeave={() => setIsHovered(false)} // Desactiva el hover al salir
         > 
         {/* Title */}
-        <div style={{ marginBottom: '50px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '60px', textAlign: 'center' }}>
           <h1>Bubble Sort Visualization</h1>
         </div>
          {/* Animation Area */}

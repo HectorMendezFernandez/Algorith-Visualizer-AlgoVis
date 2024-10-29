@@ -16,14 +16,12 @@ function App() {
         marginTop: "20px"
       }}>
         {/* Bubble Sort Visualizer */}
-        <div style={{ gridColumn: "1 / 2", gridRow: "1", border: "1px solid #ddd", borderRadius: "8px", padding: "20px" }}>
-          <h2>Bubble Sort</h2>
+        <div style={{ gridColumn: "1 / 2", gridRow: "1", borderRadius: "8px", padding: "5px" }}>
           <BubbleSortVisualizer />
         </div>
 
         {/* Selection Sort Visualizer */}
-        <div style={{ gridColumn: "2 / 3", gridRow: "1", border: "1px solid #ddd", borderRadius: "8px", padding: "20px" }}>
-          <h2>Selection Sort</h2>
+        <div style={{ gridColumn: "2 / 3", gridRow: "1", borderRadius: "8px", padding: "5px" }}>
           <SelectionSortVisualizer />
         </div>
       </div>

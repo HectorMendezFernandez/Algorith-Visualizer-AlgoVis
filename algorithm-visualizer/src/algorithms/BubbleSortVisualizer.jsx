@@ -7,8 +7,7 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) => {
     const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
-
-    //const [realTimeDuration, setRealTimeDuration] = useState(0); // Real-time duration state
+    const [realTimeDuration, setRealTimeDuration] = useState(0); // Real-time duration state
 
   // Update local array when globalArray changes
   useEffect(() => {
@@ -22,7 +21,13 @@ useEffect(() => {
      // Function to sort the array using Bubble Sort
      const handleSort = async () => {
       setIsSorting(true); // Change the state to "sorting"
-      
+
+      setRealTimeDuration(0); // Reset the real-time duration
+      const startTime = Date.now(); // Store the start time
+      const intervalId = setInterval(() => {
+        setRealTimeDuration(Date.now() - startTime); // Update the real-time duration
+    }, 100); // Update every 100 ms
+
       let sortedArray = [...array];
       for (let i = 0; i < sortedArray.length - 1; i++) {
         for (let j = 0; j < sortedArray.length - i - 1; j++) {
@@ -34,6 +39,7 @@ useEffect(() => {
           }
         }
       }
+      clearInterval(intervalId); // Stop the interval
       setCurrentIndex(null); // Reset the current index after sorting
       setIsSorting(false); // Change the state to "not sorting
     };
@@ -83,6 +89,11 @@ useEffect(() => {
               />
             ))}
           </div>
+          {/* Real-Time Duration Display */}
+          <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                <span>Duration: {realTimeDuration} ms</span>
+          </div>
+
           {/* input to show the range input */}
           <div style={{display: 'flex', justifyContent: 'center', marginBottom: '10px'}}>
           <label htmlFor="velocity">Speed:</label>

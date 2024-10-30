@@ -8,6 +8,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
     const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
+    const [realTimeDuration, setRealTimeDuration] = useState(0);
 
     // Update local array when globalArray changes
     useEffect(() => {
@@ -19,7 +20,13 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
   }, [globalSpeed]);
     // Function to sort the array using Selection Sort
     const handleSort = async () => {
-        setIsSorting(true); // Cambia el estado a "ordenando"
+        setIsSorting(true); // Change the state to "sorting"
+        setRealTimeDuration(0); // Reset the real-time duration
+      const startTime = Date.now(); // Store the start time
+      const intervalId = setInterval(() => {
+        setRealTimeDuration(Date.now() - startTime); // Update the real-time duration
+    }, 100); // Update every 100 ms
+
         let sortedArray = [...array];
         for(let i = 0; i < sortedArray.length; i++) {
             let minInd = i;
@@ -38,6 +45,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
                 await new Promise(resolve => setTimeout(resolve, speed)); // Pause for animation
             }
         }
+        clearInterval(intervalId); // Stop the interval
         setCurrentIndex(null); // Reset the current index after sorting
         setMinIndex(null); // Reset the minimum index after sorting
         setIsSorting(false); // Change the state to "not sorting"
@@ -84,6 +92,11 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
               />
             ))}
           </div>
+          {/* Real-Time Duration Display */}
+          <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                <span>Duration: {realTimeDuration} ms</span>
+          </div>
+
           <div>
             <label>Speed:</label>
             <input type="range" min="100" max="2000" value={speed} onChange={(e) => setSpeed(Number(e.target.value))} />

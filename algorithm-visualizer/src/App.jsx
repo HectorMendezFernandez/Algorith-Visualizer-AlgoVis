@@ -8,6 +8,9 @@ function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
   const [globalSpeed, setGlobalSpeed] = useState(1000); //Initial speed in milliseconds
   const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false }); // Hover states for visualizers
+  const [isSorting, setIsSorting] = useState(false);
+
+
   // Function to generate a new array
   const generateArray = () => {
     const newArray = Array.from({ length: 8 }, () => Math.floor(Math.random() * 10) + 1);
@@ -17,6 +20,7 @@ function App() {
   // Function to sort all the algorithms simultaneously
   const handleGlobalSort = () => {
     // this will click all the sort buttons simultaneously
+    setIsSorting(true);
     document.querySelectorAll(".sort-btn").forEach((button) => button.click());
   }
 
@@ -29,6 +33,10 @@ function App() {
     setHoverStates(prevState => ({ ...prevState, [key]: false }));
   };
 
+  // Function to restart the app
+  const handleActivate = () => {
+    setIsSorting(false);
+  }
 
   return (
     <div style={{
@@ -41,8 +49,9 @@ function App() {
       <h1>Algorithm Visualizer</h1>
       {/* Controles globales */}
       <div style={{ marginBottom: "20px" }}>
-        <button onClick={generateArray}>Restart Values</button>
-        <button onClick={handleGlobalSort}>Sort All</button>
+        <button onClick={generateArray} disabled={isSorting}>New Values</button>
+        <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>
+        <button onClick={handleActivate}>Activate</button>
         <div>
           <label htmlFor="globalSpeed">Global Speed:</label>
           <input
@@ -74,7 +83,7 @@ function App() {
            transform: hoverStates.bubble ? 'scale(1.05)' : 'scale(1)', // Scale on hover
            }} onMouseEnter={() => handleMouseEnter('bubble')} // Activa el hover al entrar
            onMouseLeave={() => handleMouseLeave('bubble')}>
-          <BubbleSortVisualizer globalArray = {globalArray} globalSpeed={globalSpeed}/>
+          <BubbleSortVisualizer globalArray = {globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting}/>
         </div>
 
         {/* Selection Sort Visualizer */}
@@ -82,7 +91,7 @@ function App() {
            transform: hoverStates.selection ? 'scale(1.05)' : 'scale(1)',  }} 
            onMouseEnter={() => handleMouseEnter('selection')} // Activa el hover al entrar
            onMouseLeave={() => handleMouseLeave('selection')}>
-          <SelectionSortVisualizer globalArray = {globalArray} globalSpeed={globalSpeed}/>
+          <SelectionSortVisualizer globalArray = {globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting}/>
         </div>
       </div>
     </div>

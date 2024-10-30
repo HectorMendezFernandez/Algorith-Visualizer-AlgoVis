@@ -2,20 +2,24 @@ import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 
 // eslint-disable-next-line react/prop-types
-const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
+const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) => {
     const [array, setArray] = useState(globalArray || [5, 3, 8, 1, 2, 4, 6, 7]);
     const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
+    const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
 
     // Update local array when globalArray changes
+    useEffect(() => {
+      setArray(globalArray); // Update array
+    }, [globalArray]);
+  
   useEffect(() => {
-    setArray(globalArray);
-    setSpeed(globalSpeed); // Update speed as well, if needed
-  }, [globalArray, globalSpeed]);
-
+    setSpeed(globalSpeed); // Update speed
+  }, [globalSpeed]);
     // Function to sort the array using Selection Sort
     const handleSort = async () => {
+        setIsSorting(true); // Cambia el estado a "ordenando"
         let sortedArray = [...array];
         for(let i = 0; i < sortedArray.length; i++) {
             let minInd = i;
@@ -36,6 +40,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
         }
         setCurrentIndex(null); // Reset the current index after sorting
         setMinIndex(null); // Reset the minimum index after sorting
+        setIsSorting(false); // Change the state to "not sorting"
     };
 
     const  generateArray = () => {
@@ -86,9 +91,9 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed}) => {
           </div>
           <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
           {/* Button to sort the array */}
-          <button onClick={handleSort} className="sort-btn">Sort</button>
+          <button onClick={handleSort} disabled = {isGlobalSorting} className="sort-btn">Sort</button>
           {/* Button to generate a new array */}
-          <button onClick={generateArray}>Restart</button>
+          <button onClick={generateArray} disabled={isSorting || isGlobalSorting}>New Val</button>
           </div>
         </div>
     );

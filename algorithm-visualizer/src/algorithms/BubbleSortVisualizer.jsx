@@ -2,18 +2,27 @@ import {useState, useEffect} from "react";
 import { useSpring, animated } from "react-spring";
 
 // eslint-disable-next-line react/prop-types
-const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
+const BubbleSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) => {
     const [array, setArray] = useState(globalArray || [5, 3, 8, 1, 2, 4, 6, 7]);
     const [speed, setSpeed] = useState(globalSpeed || 1000); //Initial speed in milliseconds
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
+    const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
+
+    //const [realTimeDuration, setRealTimeDuration] = useState(0); // Real-time duration state
+
   // Update local array when globalArray changes
   useEffect(() => {
-    setArray(globalArray);
-    setSpeed(globalSpeed); // Update speed as well, if needed
-  }, [globalArray, globalSpeed]);
+    setArray(globalArray); // Update array
+  }, [globalArray]);
+
+useEffect(() => {
+  setSpeed(globalSpeed); // Update speed
+}, [globalSpeed]);
 
      // Function to sort the array using Bubble Sort
      const handleSort = async () => {
+      setIsSorting(true); // Change the state to "sorting"
+      
       let sortedArray = [...array];
       for (let i = 0; i < sortedArray.length - 1; i++) {
         for (let j = 0; j < sortedArray.length - i - 1; j++) {
@@ -25,8 +34,10 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
           }
         }
       }
-      setCurrentIndex(null); // Restaura el índice después del ordenamiento
+      setCurrentIndex(null); // Reset the current index after sorting
+      setIsSorting(false); // Change the state to "not sorting
     };
+
     //Function to generate a new array
     const generateArray = () => {
         let newArray = [];
@@ -39,9 +50,9 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
 
     //Properties for animation using React Spring
     const animatedProps = useSpring({
-        from: {transform: "translateY(0px)"},
-        to: { transform: `translateY(-${10 * array.length}px)` },
-        config: { duration: speed },
+      from: { transform: "translateY(0px)" },
+      to: { transform:`translateY(-${10 * array.length}px)` }, // Evita animación en instantSort
+      config: { duration: speed },
     });
 
     return (
@@ -87,9 +98,9 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed}) => {
           </div>
           <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
           {/* Button to sort the array */}
-          <button onClick={handleSort} className="sort-btn">Sort</button>
+          <button onClick={handleSort} disabled={isGlobalSorting} className="sort-btn">Sort</button>
           {/* Button to generate a new array */}
-          <button onClick={generateArray}>Restart</button>
+          <button onClick={generateArray} disabled={isSorting || isGlobalSorting}>New Val</button>
           </div>
         </div>
       );

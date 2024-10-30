@@ -1,5 +1,6 @@
 // import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 // import BubbleSort from './algorithms/BubbleSort'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import BubbleSortVisualizer from './algorithms/BubbleSortVisualizer'
 import SelectionSortVisualizer from './algorithms/SelectionSortVisualizer'
 import { useState } from 'react'

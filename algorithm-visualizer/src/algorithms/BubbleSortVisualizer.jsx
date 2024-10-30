@@ -8,7 +8,7 @@ const BubbleSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) => {
     const [currentIndex, setCurrentIndex] = useState(null); // State for the current index being evaluated
     const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
     const [realTimeDuration, setRealTimeDuration] = useState(0); // Real-time duration state
-
+    const [titleStyle, setTitleStyle] = useState({});
   // Update local array when globalArray changes
   useEffect(() => {
     setArray(globalArray); // Update array
@@ -21,7 +21,7 @@ useEffect(() => {
      // Function to sort the array using Bubble Sort
      const handleSort = async () => {
       setIsSorting(true); // Change the state to "sorting"
-
+      setTitleStyle({});
       setRealTimeDuration(0); // Reset the real-time duration
       const startTime = Date.now(); // Store the start time
       const intervalId = setInterval(() => {
@@ -42,6 +42,22 @@ useEffect(() => {
       clearInterval(intervalId); // Stop the interval
       setCurrentIndex(null); // Reset the current index after sorting
       setIsSorting(false); // Change the state to "not sorting
+
+      //change the title style to indicate that the sorting is complete
+    setTitleStyle({ 
+      color: '#90EE90', 
+      transform: 'scale(1.1)', 
+      transition: 'transform 0.3s ease-in-out, color 0.3s ease-in-out'
+  });
+   //Change the title style to indicate that the sorting is complete
+   setTimeout(() => {
+    setTitleStyle({
+        color: 'initial',
+        transform: 'scale(1)',
+        transition: 'color 0.3s ease-in-out'
+    });
+}, 500); 
+
     };
 
     //Function to generate a new array
@@ -71,7 +87,9 @@ useEffect(() => {
         > 
         {/* Title */}
         <div style={{ marginBottom: '60px', textAlign: 'center' }}>
-          <h1>Bubble Sort Visualization</h1>
+        <h1 style={titleStyle}>
+          Bubble Sort Visualization
+        </h1>
         </div>
          {/* Animation Area */}
         <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginBottom: '20px' }}>

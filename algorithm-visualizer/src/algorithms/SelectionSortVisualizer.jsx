@@ -9,7 +9,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
     const [minIndex, setMinIndex] = useState(null); // State for the minimum index found
     const [isSorting, setIsSorting] = useState(false); // State to check if the array is being sorted
     const [realTimeDuration, setRealTimeDuration] = useState(0);
-
+    const [titleStyle, setTitleStyle] = useState({});
     // Update local array when globalArray changes
     useEffect(() => {
       setArray(globalArray); // Update array
@@ -22,6 +22,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
     const handleSort = async () => {
         setIsSorting(true); // Change the state to "sorting"
         setRealTimeDuration(0); // Reset the real-time duration
+        setTitleStyle({});
       const startTime = Date.now(); // Store the start time
       const intervalId = setInterval(() => {
         setRealTimeDuration(Date.now() - startTime); // Update the real-time duration
@@ -49,6 +50,20 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
         setCurrentIndex(null); // Reset the current index after sorting
         setMinIndex(null); // Reset the minimum index after sorting
         setIsSorting(false); // Change the state to "not sorting"
+              //change the title style to indicate that the sorting is complete
+    setTitleStyle({ 
+      color: '#90EE90', 
+      transform: 'scale(1.1)', 
+      transition: 'transform 0.3s ease-in-out, color 0.3s ease-in-out'
+  });
+   //Change the title style to indicate that the sorting is complete
+   setTimeout(() => {
+    setTitleStyle({
+        color: 'initial',
+        transform: 'scale(1)',
+        transition: 'color 0.3s ease-in-out'
+    });
+}, 500); 
     };
 
     const  generateArray = () => {
@@ -76,7 +91,7 @@ const SelectionSortVisualizer = ({globalArray, globalSpeed, isGlobalSorting}) =>
      > 
      {/* Title */}
           <div style={{ marginBottom: '60px', textAlign: 'center' }}>
-          <h1>Selection Sort Visualization</h1>
+          <h1 style={titleStyle}>Selection Sort Visualization</h1>
         </div>
           <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginBottom: "20px" }}>
             {array.map((value, index) => (

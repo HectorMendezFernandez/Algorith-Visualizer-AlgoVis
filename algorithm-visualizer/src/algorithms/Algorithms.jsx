@@ -266,4 +266,81 @@ export const countingSort = async (array, setArray, setCurrentIndex, speed) => {
     setCurrentIndex(null); // Limpiar después de terminar
 };
 
+// Tim Sort Algorithm
+export const timSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Tim Sort is a hybrid sorting algorithm derived from merge sort and insertion sort. It is designed to perform well on many kinds of real-world
+    data. The tim sort algorithm has a time complexity of O(n log n) for the worst-case scenario.
+    */
+
+    // Minimum run size
+    const RUN = 32;
+    // Insertion sort function
+    const insertionSort = async (left, right) => {
+        for (let i = left + 1; i <= right; i++) {
+            let temp = array[i];
+            let j = i - 1;
+
+            while (j >= left && array[j] > temp) {
+                array[j + 1] = array[j];
+                j--;
+                setArray([...array]);
+                setCurrentIndex(j + 1);
+                await new Promise(resolve => setTimeout(resolve, speed));
+            }
+            array[j + 1] = temp;
+            setArray([...array]);
+        }
+    };
+    // Merge function
+    const merge = async (l, m, r) => {
+        let left = array.slice(l, m + 1);
+        let right = array.slice(m + 1, r + 1);
+
+        let i = 0, j = 0, k = l;
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) {
+                array[k] = left[i];
+                i++;
+            } else {
+                array[k] = right[j];
+                j++;
+            }
+            setArray([...array]);
+            setCurrentIndex(k);
+            await new Promise(resolve => setTimeout(resolve, speed));
+            k++;
+        }
+        
+        while (i < left.length) {
+            array[k] = left[i];
+            i++; k++;
+            setArray([...array]);
+            setCurrentIndex(k - 1);
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
+        
+        while (j < right.length) {
+            array[k] = right[j];
+            j++; k++;
+            setArray([...array]);
+            setCurrentIndex(k - 1);
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
+    };
+    // Sort the array using insertion sort
+    for (let i = 0; i < array.length; i += RUN) {
+        await insertionSort(i, Math.min(i + RUN - 1, array.length - 1));
+    }
+    // Merge the sorted runs
+    for (let size = RUN; size < array.length; size = 2 * size) {
+        for (let left = 0; left < array.length; left += 2 * size) {
+            const mid = Math.min(left + size - 1, array.length - 1);
+            const right = Math.min(left + 2 * size - 1, array.length - 1);
+            if (mid < right) await merge(left, mid, right);
+        }
+    }
+    setCurrentIndex(null);
+};
+
 

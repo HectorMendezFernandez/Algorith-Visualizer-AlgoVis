@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import SortVisualizer from './components/SortVisualizer'; 
-import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort, radixSort, countingSort} from './algorithms/Algorithms';
+import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort, radixSort, countingSort, timSort} from './algorithms/Algorithms';
 
 function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
   const [globalSpeed, setGlobalSpeed] = useState(1000);
   const [isSorting, setIsSorting] = useState(false);
-  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false , quick: false, insertion:false, heap: false, radix: false, counting:false, shell:false }); // Hover states for visualizers
+  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false , quick: false, insertion:false, heap: false, radix: false, counting:false, shell:false, tim: false }); // Hover states for visualizers
   
   
   // Function to sort all the algorithms simultaneously
@@ -70,38 +70,42 @@ function App() {
           <SortVisualizer algorithmName="Merge Sort" sortingLogic={mergeSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Quick Sort Visualizer*/}
-        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px"} } 
+        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.quick ? 'scale(1.05)' : 'scale(1)'} } 
         onMouseEnter={() => handleMouseEnter('quick')}
         onMouseLeave={() => handleMouseLeave('quick')}>
            <SortVisualizer algorithmName="Quick Sort" sortingLogic={quickSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Insertion Sort*/}
-        <div style={{ gridColumn: "2 / 3", gridRow: "2", borderRadius: "8px", padding: "5px" }} 
+        <div style={{ gridColumn: "2 / 3", gridRow: "2", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.insertion ? 'scale(1.05)' : 'scale(1)' }} 
         onMouseEnter={() => handleMouseEnter('insertion')}
         onMouseLeave={() => handleMouseLeave('insertion')}>
           <SortVisualizer algorithmName="Insertion Sort" sortingLogic={insertionSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Heap Sort*/}
-        <div style={{ gridColumn: "3 / 4", gridRow: "2", borderRadius: "8px", padding: "5px" }}
+        <div style={{ gridColumn: "3 / 4", gridRow: "2", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.heap ? 'scale(1.05)' : 'scale(1)' }}
         onMouseEnter={() => handleMouseEnter('heap')}
         onMouseLeave={() => handleMouseLeave('heap')}
         >
           <SortVisualizer algorithmName="Heap Sort" sortingLogic={heapSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Radix Sort*/}
-        <div style={{ gridColumn: "1 / 2", gridRow: "3", borderRadius: "8px", padding: "5px" }}
+        <div style={{ gridColumn: "1 / 2", gridRow: "3", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.radix ? 'scale(1.05)' : 'scale(1)' }}
         onMouseEnter={() => handleMouseEnter('radix')}
         onMouseLeave={() => handleMouseLeave('radix')}>
           <SortVisualizer algorithmName="Radix Sort" sortingLogic={radixSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Counting Sort*/}
-        <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px" }}
+        <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.counting ? 'scale(1.05)' : 'scale(1)' }}
         onMouseEnter={() => handleMouseEnter('counting')}
         onMouseLeave={() => handleMouseLeave('counting')}>
           <SortVisualizer algorithmName="Counting Sort" sortingLogic={countingSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
-        {/*Shell Sort*/}
-        <div style={{ gridColumn: "3 / 4", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Tim Sort*/}
+        <div style={{ gridColumn: "3 / 4", gridRow: "3", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.tim ? 'scale(1.05)' : 'scale(1)' }}
+         onMouseEnter={() => handleMouseEnter('tim')}
+         onMouseLeave={() => handleMouseLeave('tim')}>
+          <SortVisualizer algorithmName="Tim Sort" sortingLogic={timSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+        </div>
       </div>
     </div>
   );

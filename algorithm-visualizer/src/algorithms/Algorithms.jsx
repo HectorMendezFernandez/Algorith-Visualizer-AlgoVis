@@ -164,4 +164,44 @@ export const insertionSort = async (array, setArray, setCurrentIndex, speed) => 
 };
 
 
+// Heap Sort Algorithm
+export const heapSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Heap Sort is a comparison-based sorting algorithm that uses a binary heap data structure to build a heap from the input array and then
+    repeatedly extracts the maximum element from the heap and rebuilds the heap. The heap sort algorithm has a time complexity of O(n log n)
+    for the worst-case scenario.
+    */
+    const heapify = async (arr, n, i) => {
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+
+        if (left < n && arr[left] > arr[largest]) {
+            largest = left;
+        }
+        if (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]];
+            setArray([...arr]);
+            await new Promise(resolve => setTimeout(resolve, speed));
+            await heapify(arr, n, largest);
+        }
+    };
+
+    const n = array.length;
+    let arr = [...array];
+
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        await heapify(arr, n, i);
+    }
+    for (let i = n - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        setArray([...arr]);
+        await new Promise(resolve => setTimeout(resolve, speed));
+        await heapify(arr, i, 0);
+    }
+};
+
 

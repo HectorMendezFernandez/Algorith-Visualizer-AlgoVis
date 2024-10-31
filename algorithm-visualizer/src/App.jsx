@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SortVisualizer from './components/SortVisualizer'; 
-import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort } from './algorithms/Algorithms';
+import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort} from './algorithms/Algorithms';
 
 function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
@@ -86,7 +86,7 @@ function App() {
         onMouseEnter={() => handleMouseEnter('heap')}
         onMouseLeave={() => handleMouseLeave('heap')}
         >
-          <SortVisualizer algorithmName="Heap Sort" sortingLogic={insertionSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+          <SortVisualizer algorithmName="Heap Sort" sortingLogic={heapSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Radix Sort*/}
         <div style={{ gridColumn: "1 / 2", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>

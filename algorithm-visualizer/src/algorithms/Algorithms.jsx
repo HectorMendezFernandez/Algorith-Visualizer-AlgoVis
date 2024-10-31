@@ -138,3 +138,30 @@ export const quickSort = async (array, setArray, setCurrentIndex, speed) => {
     await quickSortHelper([...array], 0, array.length - 1);
 };
 
+// Insertion Sort Algorithm
+export const insertionSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Insertion Sort is a simple comparison-based sorting algorithm that builds the final sorted array one element at a time. It takes each
+    element from the input array and inserts it into its correct position in the sorted array. The insertion sort algorithm has a time
+    complexity of O(n^2) for the worst-case scenario.
+    */
+    let arr = [...array];
+
+    for (let i = 1; i < arr.length; i++) {
+        const current = arr[i];
+        let j = i - 1;
+
+        while (j >= 0 && arr[j] > current) {
+            setCurrentIndex(j);
+            arr[j + 1] = arr[j];
+            setArray([...arr]);
+            await new Promise(resolve => setTimeout(resolve, speed));
+            j--;
+        }
+        arr[j + 1] = current;
+        setArray([...arr]);
+    }
+};
+
+
+

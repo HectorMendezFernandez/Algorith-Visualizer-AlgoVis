@@ -29,10 +29,11 @@ const SortVisualizer = ({
         const intervalId = setInterval(() => {
             setRealTimeDuration(Date.now() - startTime);
         }, 100);
-        if (algorithmName === "Bubble Sort" || algorithmName === "Merge Sort" || algorithmName === "Quick Sort") {
-            await sortingLogic(array, setArray, setCurrentIndex, speed);
-        } else if (algorithmName === "Selection Sort") {
+        
+        if (algorithmName === "Selection Sort") {
             await sortingLogic(array, setArray, setCurrentIndex, setMinIndex, speed);
+        }else{
+            await sortingLogic(array, setArray, setCurrentIndex, speed);
         }
 
         clearInterval(intervalId);

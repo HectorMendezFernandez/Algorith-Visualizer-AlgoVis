@@ -6,7 +6,7 @@ function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
   const [globalSpeed, setGlobalSpeed] = useState(1000);
   const [isSorting, setIsSorting] = useState(false);
-  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false }); // Hover states for visualizers
+  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false , quick: false, insertion:false, heap: false, radix: false, counting:false, shell:false }); // Hover states for visualizers
   
   
   // Function to sort all the algorithms simultaneously
@@ -69,12 +69,21 @@ function App() {
           onMouseLeave={() => handleMouseLeave('merge')}>
           <SortVisualizer algorithmName="Merge Sort" sortingLogic={mergeSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
-        {/* Espacios para más algoritmos */}
-        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Quick Sort Visualizer*/}
+        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px" }} 
+        onMouseEnter={() => handleMouseEnter('quick')}
+        onMouseLeave={() => handleMouseLeave('quick')}>
+
+        </div>
+        {/*Insertion Sort*/}
         <div style={{ gridColumn: "2 / 3", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Heap Sort*/}
         <div style={{ gridColumn: "3 / 4", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Radix Sort*/}
         <div style={{ gridColumn: "1 / 2", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Counting Sort*/}
         <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        {/*Shell Sort*/}
         <div style={{ gridColumn: "3 / 4", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
       </div>
     </div>

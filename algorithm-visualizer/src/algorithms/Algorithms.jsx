@@ -204,4 +204,47 @@ export const heapSort = async (array, setArray, setCurrentIndex, speed) => {
     }
 };
 
+// Radix Sort Algorithm
+export const radixSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Radix Sort is a non-comparison-based sorting algorithm that sorts the input array by grouping the elements by individual digits that share
+    the same significant position and value. The radix sort algorithm has a time complexity of O(nk) for the worst-case scenario, where n is
+    the number of elements in the input array and k is the number of digits in the maximum element.
+    */
+    const getMax = (arr) => Math.max(...arr);
+
+    const countingSort = async (arr, exp) => {
+        const output = new Array(arr.length);
+        const count = new Array(10).fill(0);
+
+        for (let i = 0; i < arr.length; i++) {
+            const index = Math.floor(arr[i] / exp) % 10;
+            count[index]++;
+        }
+
+        for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (let i = arr.length - 1; i >= 0; i--) {
+            const index = Math.floor(arr[i] / exp) % 10;
+            output[count[index] - 1] = arr[i];
+            count[index]--;
+        }
+
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] = output[i];
+            setArray([...arr]);
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
+    };
+
+    const arr = [...array];
+    const max = getMax(arr);
+
+    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+        await countingSort(arr, exp);
+    }
+};
+
 

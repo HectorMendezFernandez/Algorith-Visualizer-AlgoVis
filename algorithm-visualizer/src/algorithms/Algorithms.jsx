@@ -103,45 +103,38 @@ export const mergeSort = async (array, setArray, setCurrentIndex, speed) => {
 // Quick Sort Algorithm
 export const quickSort = async (array, setArray, setCurrentIndex, speed) => {
     /*
-    Quick Sort is a divide-and-conquer algorithm that selects a pivot element from the array and partitions the other elements into two
-    sub-arrays according to whether they are less than or greater than the pivot. The sub-arrays are then recursively sorted. The quick sort
-    algorithm has a time complexity of O(n log n) for the average-case scenario and O(n^2) for the worst-case scenario.
+    Quick Sort is a comparison-based sorting algorithm that uses a divide-and-conquer strategy to divide the input array into two partitions
+    (elements less than a pivot and elements greater than a pivot), recursively sorts the partitions, and then combines the sorted partitions.
+    The quick sort algorithm has a time complexity of O(n log n) for the average-case scenario and O(n^2) for the worst-case scenario.
     */
-    let sortedArray = [...array];
-    
-    const partition = async (start, end) => {
-        const pivot = sortedArray[end];
-        let i = start - 1;
-        
-        for (let j = start; j < end; j++) {
-            if (sortedArray[j] < pivot) {
-                i++;
-                [sortedArray[i], sortedArray[j]] = [sortedArray[j], sortedArray[i]];
-                setArray([...sortedArray]);
+    const quickSortHelper = async (arr, left, right) => {
+        if (left < right) {
+            const pivotIndex = await partition(arr, left, right);
+            await quickSortHelper(arr, left, pivotIndex - 1);
+            await quickSortHelper(arr, pivotIndex + 1, right);
+            setArray([...arr]); // Actualiza el array visualizado
+        }
+    };
+
+    const partition = async (arr, left, right) => {
+        const pivotValue = arr[right];
+        let pivotIndex = left;
+
+        for (let i = left; i < right; i++) {
+            setCurrentIndex(i); // Resalta el índice actual
+            if (arr[i] < pivotValue) {
+                [arr[pivotIndex], arr[i]] = [arr[i], arr[pivotIndex]];
+                pivotIndex++;
+                setArray([...arr]);
                 await new Promise(resolve => setTimeout(resolve, speed));
             }
         }
-        
-        [sortedArray[i + 1], sortedArray[end]] = [sortedArray[end], sortedArray[i + 1]];
-        setArray([...sortedArray]);
+        [arr[pivotIndex], arr[right]] = [arr[right], arr[pivotIndex]];
+        setArray([...arr]);
         await new Promise(resolve => setTimeout(resolve, speed));
-        
-        return i + 1;
+        return pivotIndex;
     };
-    
-    const quickSortHelper = async (start, end) => {
-        if (start >= end) {
-            return;
-        }
-        
-        const pivotIndex = await partition(start, end);
-        
-        await quickSortHelper(start, pivotIndex - 1);
-        await quickSortHelper(pivotIndex + 1, end);
-    };
-    
-    await quickSortHelper(0, sortedArray.length - 1);
-    
-    setCurrentIndex(null);  // Limpiar índices después de la ordenación
+
+    await quickSortHelper([...array], 0, array.length - 1);
 };
 

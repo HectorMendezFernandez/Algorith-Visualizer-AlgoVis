@@ -1,4 +1,10 @@
+
+// Bubble Sort Algorithm
 export const bubbleSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Bubble Sort is a simple comparison-based sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps
+    them
+    */
     let sortedArray = [...array];
     for (let i = 0; i < sortedArray.length - 1; i++) {
         for (let j = 0; j < sortedArray.length - i - 1; j++) {
@@ -12,8 +18,13 @@ export const bubbleSort = async (array, setArray, setCurrentIndex, speed) => {
     }
 };
 
-
+// Selection Sort Algorithm
 export const selectionSort = async (array, setArray, setCurrentIndex, setMinIndex, speed) => {
+    /*
+    Selection Sort is an in-place comparison sorting algorithm that divides the input list into two parts: the sublist of items already sorted
+    and the sublist of items remaining to be sorted. The algorithm selects the smallest element from the unsorted sublist in each iteration 
+    and swaps it with the leftmost unsorted element. The selection sort algorithm has a time complexity of O(n^2) for the worst-case scenario.
+    */
     let sortedArray = [...array];
     
     for (let i = 0; i < sortedArray.length; i++) {

@@ -241,29 +241,29 @@ export const countingSort = async (array, setArray, setCurrentIndex, speed) => {
     has a time complexity of O(n + k) for the worst-case scenario, where n is the number of elements in the input array and k is the range of
     the input.
     */
-    const arr = [...array];
-    const maxVal = Math.max(...arr);
-    const count = new Array(maxVal + 1).fill(0);
-    const output = new Array(arr.length);
+    const max = Math.max(...array);
+    const count = Array(max + 1).fill(0);
 
-    for (let num of arr) {
-        count[num]++;
-    }
-
-    for (let i = 1; i <= maxVal; i++) {
-        count[i] += count[i - 1];
-    }
-
-    for (let i = arr.length - 1; i >= 0; i--) {
-        output[count[arr[i]] - 1] = arr[i];
-        count[arr[i]]--;
-        setArray([...output]);
+    // Count the number of occurrences of each
+    for (let i = 0; i < array.length; i++) {
+        setCurrentIndex(i);
+        count[array[i]]++;
         await new Promise(resolve => setTimeout(resolve, speed));
     }
 
-    for (let i = 0; i < output.length; i++) {
-        arr[i] = output[i];
+    // Reconstruct the sorted array
+    let index = 0;
+    for (let i = 0; i <= max; i++) {
+        while (count[i] > 0) {
+            array[index] = i;
+            setArray([...array]);
+            setCurrentIndex(index);
+            count[i]--;
+            index++;
+            await new Promise(resolve => setTimeout(resolve, speed));
+        }
     }
+    setCurrentIndex(null); // Limpiar después de terminar
 };
 
 

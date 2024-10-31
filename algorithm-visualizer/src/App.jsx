@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SortVisualizer from './components/SortVisualizer'; 
-import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort, radixSort} from './algorithms/Algorithms';
+import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort, radixSort, countingSort} from './algorithms/Algorithms';
 
 function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
@@ -70,7 +70,7 @@ function App() {
           <SortVisualizer algorithmName="Merge Sort" sortingLogic={mergeSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Quick Sort Visualizer*/}
-        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px" }} 
+        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px"} } 
         onMouseEnter={() => handleMouseEnter('quick')}
         onMouseLeave={() => handleMouseLeave('quick')}>
            <SortVisualizer algorithmName="Quick Sort" sortingLogic={quickSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
@@ -95,7 +95,11 @@ function App() {
           <SortVisualizer algorithmName="Radix Sort" sortingLogic={radixSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
         </div>
         {/*Counting Sort*/}
-        <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px" }}
+        onMouseEnter={() => handleMouseEnter('counting')}
+        onMouseLeave={() => handleMouseLeave('counting')}>
+          <SortVisualizer algorithmName="Counting Sort" sortingLogic={countingSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+        </div>
         {/*Shell Sort*/}
         <div style={{ gridColumn: "3 / 4", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
       </div>

@@ -64,20 +64,28 @@ const SortVisualizer = ({
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' , marginBottom: '20px'}}>
                 {array.map((value, index) => (
                     <animated.div 
-                        key={index} 
-                        style={{ 
-                            ...animatedProps, 
-                            width: '45px', 
-                            height: `${value * 10}px`, 
-                            backgroundColor: index === currentIndex 
-                                ? 'orange' 
-                                : index === minIndex 
-                                ? 'purple' 
-                                : 'teal', 
-                            marginLeft: '8px' 
-                        }} 
-                    />
-                ))}
+                    key={index} 
+                    style={{ 
+                        ...animatedProps, 
+                        position: 'relative',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '45px', 
+                        height: `${value * 10}px`, 
+                        backgroundColor: index === currentIndex 
+                            ? 'orange' 
+                            : index === minIndex 
+                            ? 'purple' 
+                            : 'teal', 
+                        color: 'white',
+                        fontWeight: 'bold',
+                        marginLeft: '8px' 
+                    }} 
+                >
+                    {value}
+                </animated.div>
+                               ))}
             </div>
             <div style={{ textAlign: 'center', marginBottom: '10px' }}>
             <span>Duration: {realTimeDuration} ms</span>

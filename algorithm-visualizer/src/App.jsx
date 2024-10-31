@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import SortVisualizer from './components/SortVisualizer'; 
-import { bubbleSort, selectionSort } from './algorithms/Algorithms';
+import { bubbleSort, selectionSort, mergeSort } from './algorithms/Algorithms';
 
 function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
   const [globalSpeed, setGlobalSpeed] = useState(1000);
   const [isSorting, setIsSorting] = useState(false);
-  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false }); // Hover states for visualizers
+  const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false }); // Hover states for visualizers
   
   
   // Function to sort all the algorithms simultaneously
@@ -37,35 +37,49 @@ function App() {
   };
 
   return (
-    <div style={{padding: "20px", textAlign: "center", display: 'grid', marginTop: '5px', marginLeft: '20px'}}>
+    <div style={{ padding: "20px", textAlign: "center", display: 'grid', marginTop: '5px', marginLeft: '20px' }}>
       <h1>Algorithm Visualizer</h1>
       {/* Global Controls */}
       <div style={{ marginBottom: "20px" }}>
-      <button onClick={generateArray}>New Values</button>
-      <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>
-      <button onClick={handleActivate}>Activate</button>
-      <div>
-      <label htmlFor="globalSpeed">Global Speed:</label>
-      <input type='range' min='100' max='2000' value={globalSpeed} onChange={(e) => setGlobalSpeed(Number(e.target.value))} />
-      <span>{globalSpeed} ms</span>
+        <button onClick={generateArray}>New Values</button>
+        <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>
+        <button onClick={handleActivate}>Activate</button>
+        <div>
+          <label htmlFor="globalSpeed">Global Speed:</label>
+          <input type='range' min='100' max='2000' value={globalSpeed} onChange={(e) => setGlobalSpeed(Number(e.target.value))} />
+          <span>{globalSpeed} ms</span>
+        </div>
       </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "repeat(3, 1fr)", gap: "20px", marginTop: "20px" }}>
+        {/* Bubble Sort Visualizer */}
+        <div style={{ gridColumn: "1 / 2", gridRow: "1", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.bubble ? 'scale(1.05)' : 'scale(1)' }}
+          onMouseEnter={() => handleMouseEnter('bubble')}
+          onMouseLeave={() => handleMouseLeave('bubble')}>
+          <SortVisualizer algorithmName="Bubble Sort" sortingLogic={bubbleSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+        </div>
+        {/* Selection Sort Visualizer */}
+        <div style={{ gridColumn: "2 / 3", gridRow: "1", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.selection ? 'scale(1.05)' : 'scale(1)' }}
+          onMouseEnter={() => handleMouseEnter('selection')}
+          onMouseLeave={() => handleMouseLeave('selection')}>
+          <SortVisualizer algorithmName="Selection Sort" sortingLogic={selectionSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+        </div>
+        {/* Merge Sort Visualizer */}
+        <div style={{ gridColumn: "3 / 4", gridRow: "1", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease', transform: hoverStates.merge ? 'scale(1.05)' : 'scale(1)' }}
+          onMouseEnter={() => handleMouseEnter('merge')}
+          onMouseLeave={() => handleMouseLeave('merge')}>
+          <SortVisualizer algorithmName="Merge Sort" sortingLogic={mergeSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
+        </div>
+        {/* Espacios para más algoritmos */}
+        <div style={{ gridColumn: "1 / 2", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "2 / 3", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "3 / 4", gridRow: "2", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "1 / 2", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "2 / 3", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
+        <div style={{ gridColumn: "3 / 4", gridRow: "3", borderRadius: "8px", padding: "5px" }}></div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "auto auto auto", gap: "20px", marginTop: "20px" }}>
-      {/* Bubble Sort Visualizer */}
-      <div style={{ gridColumn: "1 / 2", gridRow: "1", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease',  transform: hoverStates.bubble ? 'scale(1.05)' : 'scale(1)'}}
-      onMouseEnter={() => handleMouseEnter('bubble')} 
-      onMouseLeave={() => handleMouseLeave('bubble')}>
-      <SortVisualizer algorithmName="Bubble Sort" sortingLogic={bubbleSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
-      </div>
-      {/* Selection Sort Visualizer */}
-      <div style={{ gridColumn: "2 / 3", gridRow: "1", borderRadius: "8px", padding: "5px", transition: 'transform 0.3s ease',  transform: hoverStates.selection ? 'scale(1.05)' : 'scale(1)'}}
-      onMouseEnter={() => handleMouseEnter('selection')} 
-      onMouseLeave={() => handleMouseLeave('selection')}>
-      <SortVisualizer algorithmName="Selection Sort" sortingLogic={selectionSort} globalArray={globalArray} globalSpeed={globalSpeed} isGlobalSorting={isSorting} />
-      </div>
-    </div>
     </div>
   );
+  
 }
 
 export default App;

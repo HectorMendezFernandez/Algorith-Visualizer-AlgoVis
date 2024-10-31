@@ -207,43 +207,62 @@ export const heapSort = async (array, setArray, setCurrentIndex, speed) => {
 // Radix Sort Algorithm
 export const radixSort = async (array, setArray, setCurrentIndex, speed) => {
     /*
-    Radix Sort is a non-comparison-based sorting algorithm that sorts the input array by grouping the elements by individual digits that share
-    the same significant position and value. The radix sort algorithm has a time complexity of O(nk) for the worst-case scenario, where n is
-    the number of elements in the input array and k is the number of digits in the maximum element.
+    Radix Sort is a non-comparison-based sorting algorithm that sorts the input array by processing individual digits of the elements in the
+    array. The radix sort algorithm has a time complexity of O(nk) for the worst-case scenario, where n is the number of elements in the input
+    array and k is the number of digits in the maximum element in the input array.
     */
-    const getMax = (arr) => Math.max(...arr);
+    const maxNum = Math.max(...array);
+    let divisor = 1;
 
-    const countingSort = async (arr, exp) => {
-        const output = new Array(arr.length);
-        const count = new Array(10).fill(0);
+    while (parseInt(maxNum / divisor) > 0) {
+        //Create 10 buckets for each digit (0-9)
+        let buckets = Array.from({ length: 10 }, () => []);
 
-        for (let i = 0; i < arr.length; i++) {
-            const index = Math.floor(arr[i] / exp) % 10;
-            count[index]++;
-        }
-
-        for (let i = 1; i < 10; i++) {
-            count[i] += count[i - 1];
-        }
-
-        for (let i = arr.length - 1; i >= 0; i--) {
-            const index = Math.floor(arr[i] / exp) % 10;
-            output[count[index] - 1] = arr[i];
-            count[index]--;
-        }
-
-        for (let i = 0; i < arr.length; i++) {
-            arr[i] = output[i];
-            setArray([...arr]);
+        for (let i = 0; i < array.length; i++) {
+            const digit = Math.floor(array[i] / divisor) % 10;
+            setCurrentIndex(i);  // Resaltar el índice actual
+            buckets[digit].push(array[i]);
             await new Promise(resolve => setTimeout(resolve, speed));
         }
-    };
 
+        //Concatenate the buckets
+        array = [].concat(...buckets);
+        setArray([...array]);
+        divisor *= 10;
+    }
+    setCurrentIndex(null);
+};
+
+// Counting Sort Algorithm
+export const countingSort = async (array, setArray, setCurrentIndex, speed) => {
+    /*
+    Counting Sort is a non-comparison-based sorting algorithm that sorts the input array by counting the number of occurrences of each unique
+    element in the input array and using the counts to determine the positions of each element in the sorted array. The counting sort algorithm
+    has a time complexity of O(n + k) for the worst-case scenario, where n is the number of elements in the input array and k is the range of
+    the input.
+    */
     const arr = [...array];
-    const max = getMax(arr);
+    const maxVal = Math.max(...arr);
+    const count = new Array(maxVal + 1).fill(0);
+    const output = new Array(arr.length);
 
-    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
-        await countingSort(arr, exp);
+    for (let num of arr) {
+        count[num]++;
+    }
+
+    for (let i = 1; i <= maxVal; i++) {
+        count[i] += count[i - 1];
+    }
+
+    for (let i = arr.length - 1; i >= 0; i--) {
+        output[count[arr[i]] - 1] = arr[i];
+        count[arr[i]]--;
+        setArray([...output]);
+        await new Promise(resolve => setTimeout(resolve, speed));
+    }
+
+    for (let i = 0; i < output.length; i++) {
+        arr[i] = output[i];
     }
 };
 

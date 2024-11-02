@@ -56,8 +56,8 @@ const SortVisualizer = ({
 
     const animatedProps = useSpring({ from: { transform: "translateY(0px)" }, to: { transform: `translateY(-${10 * array.length}px)` }, config: { duration: speed } });
 
-    const containerHeight = 200; // Altura fija del contenedor
-    const maxBarHeight = containerHeight / 2; // Altura máxima de cada barra
+    const containerHeight = 200; // height of the container
+    const maxBarHeight = containerHeight / 2; // max height of each bar
 
     return (
         <div style={{ 
@@ -74,9 +74,9 @@ const SortVisualizer = ({
                 gap: '5px', 
                 justifyContent: 'center', 
                 marginBottom: '20px',
-                height: `${containerHeight}px`, // Altura fija para el contenedor de las barras
-                alignItems: 'flex-end', // Alinea las barras en la parte inferior
-                overflow: 'hidden' // Evita que las barras se salgan del contenedor
+                height: `${containerHeight}px`, // height of the container
+                alignItems: 'flex-end', //align items to the bottom
+                overflow: 'hidden' // hide the overflow
             }}>
                 {array.map((value, index) => (
                     <animated.div 
@@ -85,8 +85,8 @@ const SortVisualizer = ({
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: `${80 / array.length}%`, // Ajusta el ancho basado en la cantidad de elementos
-                            height: `${Math.min(value * 10, maxBarHeight)}px`, // Limita la altura de cada barra
+                            width: `${80 / array.length}%`, // width of each bar based on the length of the array
+                            height: `${Math.min(value * 10, maxBarHeight)}px`, // height of each bar
                             backgroundColor: index === currentIndex 
                                 ? 'orange' 
                                 : index === minIndex 

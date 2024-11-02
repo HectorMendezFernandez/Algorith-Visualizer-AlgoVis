@@ -45,46 +45,59 @@ const SortVisualizer = ({
         setTimeout(() => setTitleStyle({ color: 'initial', transform: 'scale(1)', transition: 'color 0.3s' }), 500);
     };
 
-        //Function to generate a new array
-        const generateArray = () => {
-            let newArray = [];
-            for (let i = 0; i < 8; i++) {
-              newArray.push(Math.floor(Math.random() * 10) + 1);
-            }
-            setArray(newArray);
-          };
+    //Function to generate a new array
+    const generateArray = () => {
+        let newArray = [];
+        for (let i = 0; i < 8; i++) {
+            newArray.push(Math.floor(Math.random() * 10) + 1);
+        }
+        setArray(newArray);
+    };
 
     const animatedProps = useSpring({ from: { transform: "translateY(0px)" }, to: { transform: `translateY(-${10 * array.length}px)` }, config: { duration: speed } });
 
+    const containerHeight = 200; // Altura fija del contenedor
+    const maxBarHeight = containerHeight / 2; // Altura máxima de cada barra
+
     return (
-        <div style={{ display: 'grid', marginTop: '5px', marginLeft: '20px' }}>
+        <div style={{ 
+            display: 'grid', 
+            marginTop: '5px', 
+            marginLeft: '20px', 
+            maxWidth: '80vw'
+        }}>
             <div style={{ marginBottom: '60px', textAlign: 'center' }}>
             <h1 style={titleStyle}>{algorithmName} Visualization</h1>
             </div>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' , marginBottom: '20px'}}>
+            <div style={{ 
+                display: 'flex', 
+                gap: '5px', 
+                justifyContent: 'center', 
+                marginBottom: '20px',
+                height: `${containerHeight}px`, // Altura fija para el contenedor de las barras
+                alignItems: 'flex-end', // Alinea las barras en la parte inferior
+                overflow: 'hidden' // Evita que las barras se salgan del contenedor
+            }}>
                 {array.map((value, index) => (
                     <animated.div 
-                    key={index} 
-                    style={{ 
-                        ...animatedProps, 
-                        position: 'relative',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: '45px', 
-                        height: `${value * 10}px`, 
-                        backgroundColor: index === currentIndex 
-                            ? 'orange' 
-                            : index === minIndex 
-                            ? 'purple' 
-                            : 'teal', 
-                        color: 'white',
-                        fontWeight: 'bold',
-                        marginLeft: '8px' 
-                    }} 
-                >
-                    {value}
-                </animated.div>
+                        key={index} 
+                        style={{ 
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: `${80 / array.length}%`, // Ajusta el ancho basado en la cantidad de elementos
+                            height: `${Math.min(value * 10, maxBarHeight)}px`, // Limita la altura de cada barra
+                            backgroundColor: index === currentIndex 
+                                ? 'orange' 
+                                : index === minIndex 
+                                ? 'purple' 
+                                : 'teal', 
+                            color: 'white',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {value}
+                    </animated.div>
                                ))}
             </div>
             <div style={{ textAlign: 'center', marginBottom: '10px' }}>

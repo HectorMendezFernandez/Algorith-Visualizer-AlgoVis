@@ -47,22 +47,35 @@ function App() {
   };
 
   const handleArrayInput = (e) => {
-    const value = e.target.value;
-    const validNumbers = value.split(",").map(num => parseInt(num)).filter(num => !isNaN(num));
-    setGlobalArray(validNumbers);
+    const inputValue = e.target.value;
+    // Solo permitir números, comas y espacios en el input
+    if (/^[0-9, ]*$/.test(inputValue)) {
+      setGlobalArray(inputValue.split(",").map(Number).filter(num => !isNaN(num)));
+    }
   };
 
   return (
     <div style={{ padding: "20px", textAlign: "center", display: 'grid', marginTop: '5px', marginLeft: '20px' }}>
       <h1>Algorithm Visualizer</h1>
-      <div>
-        <input
-          type="text"
-          placeholder="Enter numbers separated by commas"
-          onChange={handleArrayInput}
-          value={globalArray.join(",")}
-        />
-      </div>
+      {/* Input field for array */}
+      <div style={{ width: "100%", maxWidth: "300px", margin: "20px auto" }}>
+  <input type="text" placeholder="Enter numbers separated by commas" onChange={handleArrayInput} value={globalArray.join(",")}
+    style={{
+      width: "100%",
+      padding: "12px 15px",
+      fontSize: "16px",
+      color: "#eee",
+      backgroundColor: "#333",
+      border: "1px solid #444",
+      borderRadius: "8px",
+      outline: "none",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
+      transition: "border-color 0.3s ease",
+    }}
+    onFocus={(e) => e.target.style.borderColor = "#1E90FF"}
+    onBlur={(e) => e.target.style.borderColor = "#444"}
+  />
+</div>
       <div style={{ marginBottom: "20px" }}>
         <button onClick={generateArray}>New Values</button>
         <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>

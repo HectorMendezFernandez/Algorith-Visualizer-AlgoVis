@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
+import '../styles/SortVisualizer.css';
 
 const SortVisualizer = ({ 
     algorithmName, 
@@ -60,24 +61,11 @@ const SortVisualizer = ({
     const maxBarHeight = containerHeight / 2; // max height of each bar
 
     return (
-        <div style={{ 
-            display: 'grid', 
-            marginTop: '5px', 
-            marginLeft: '20px', 
-            maxWidth: '80vw'
-        }}>
-            <div style={{ marginBottom: '60px', textAlign: 'center' }}>
+        <div className="visualizer-container">
+            <div className=".title">
             <h1 style={titleStyle}>{algorithmName} Visualization</h1>
             </div>
-            <div style={{ 
-                display: 'flex', 
-                gap: '5px', 
-                justifyContent: 'center', 
-                marginBottom: '20px',
-                height: `${containerHeight}px`, // height of the container
-                alignItems: 'flex-end', //align items to the bottom
-                overflow: 'hidden' // hide the overflow
-            }}>
+            <div className="bar-container">
                 {array.map((value, index) => (
                     <animated.div 
                         key={index} 
@@ -94,21 +82,21 @@ const SortVisualizer = ({
                                 : 'teal', 
                             color: 'white',
                             fontWeight: 'bold',
-                        }}
+                        }} className=""
                     >
                         {value}
                     </animated.div>
                                ))}
             </div>
-            <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+            <div className=".duration">
             <span>Duration: {realTimeDuration} ms</span>
             </div>
             {/* input to show the range input */}
-            <div style={{display: 'flex', justifyContent: 'center', marginBottom: '10px'}}>
+            <div className="speed-control">
             <input type="range" min="100" max="2000" value={speed} onChange={(e) => setSpeed(Number(e.target.value))} />
             <span>{speed} ms</span>
             </div>
-            <div style={{display: 'flex', justifyContent: 'center', margin: '10px'}}>
+            <div className="sort-btn-container">
             {/* Button to sort the array */}
             <button onClick={handleSort} disabled={isGlobalSorting} className="sort-btn">Sort</button>
              {/* Button to generate a new array */}

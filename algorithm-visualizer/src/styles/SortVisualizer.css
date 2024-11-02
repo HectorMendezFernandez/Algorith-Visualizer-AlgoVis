@@ -1,0 +1,52 @@
+.visualizer-container {
+    display: grid;
+    margin-top: 5px;
+    margin-left: 20px;
+    max-width: 80vw;
+}
+
+.title {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.title h1 {
+    transition: transform 0.3s, color 0.3s;
+}
+
+.bar-container {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 20px;
+    height: 200px; /* height of the container */
+    align-items: flex-end; /* align items to the bottom */
+    overflow: hidden; /* hide the overflow */
+}
+
+.bar.current {
+    background-color: orange;
+}
+
+.bar.min {
+    background-color: purple;
+}
+
+.duration {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.speed-control {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.sort-btn-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    gap: 10px;
+}
+

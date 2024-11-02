@@ -72,9 +72,11 @@ function App() {
         />
       </div>
       <div className="controls">
+        <div className='buttons'>
         <button onClick={generateArray}>New Values</button>
         <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>
         <button onClick={handleActivate}>Activate</button>
+        </div>
         <div>
           <label htmlFor="globalSpeed">Global Speed:</label>
           <input

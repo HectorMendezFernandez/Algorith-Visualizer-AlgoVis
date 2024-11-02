@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import SortVisualizer from './components/SortVisualizer'; 
 import { bubbleSort, selectionSort, mergeSort, quickSort, insertionSort, heapSort, radixSort, countingSort, timSort} from './algorithms/Algorithms';
+import './styles/App.css';
 
 function App() {
   const [globalArray, setGlobalArray] = useState([5, 3, 8, 1, 2, 4, 6, 7]);
   const [globalSpeed, setGlobalSpeed] = useState(1000);
   const [isSorting, setIsSorting] = useState(false);
+  const [inputArray, setInputArray] = useState(globalArray); // Array estático para el input
+  // eslint-disable-next-line no-unused-vars
   const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false , quick: false, insertion:false, heap: false, radix: false, counting:false, shell:false, tim: false }); // Hover states for visualizers
   
   var algorithms = [
@@ -30,6 +33,7 @@ function App() {
   const generateArray = () => {
     const newArray = Array.from({ length: 8 }, () => Math.floor(Math.random() * 10) + 1);
     setGlobalArray(newArray);
+    setInputArray(newArray); // Actualiza también la copia estática
   };
 
   // Function to restart the app
@@ -48,62 +52,48 @@ function App() {
 
   const handleArrayInput = (e) => {
     const inputValue = e.target.value;
-    // Solo permitir números, comas y espacios en el input
-    if (/^[0-9, ]*$/.test(inputValue)) {
-      setGlobalArray(inputValue.split(",").map(Number).filter(num => !isNaN(num)));
+    if (/^[0-9, ]*$/.test(inputValue) && !isSorting) { // Solo permitir cambios si no está ordenando
+      const newArray = inputValue.split(",").map(Number).filter(num => !isNaN(num));
+      setGlobalArray(newArray);
+      setInputArray(newArray); // Actualiza también la copia estática
     }
   };
 
   return (
-    <div style={{ padding: "20px", textAlign: "center", display: 'grid', marginTop: '5px', marginLeft: '20px' }}>
+    <div className="app-container">
       <h1>Algorithm Visualizer</h1>
-      {/* Input field for array */}
-      <div style={{ width: "100%", maxWidth: "300px", margin: "20px auto" }}>
-  <input type="text" placeholder="Enter numbers separated by commas" onChange={handleArrayInput} value={globalArray.join(",")}
-    style={{
-      width: "100%",
-      padding: "12px 15px",
-      fontSize: "16px",
-      color: "#eee",
-      backgroundColor: "#333",
-      border: "1px solid #444",
-      borderRadius: "8px",
-      outline: "none",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.5)",
-      transition: "border-color 0.3s ease",
-    }}
-    onFocus={(e) => e.target.style.borderColor = "#1E90FF"}
-    onBlur={(e) => e.target.style.borderColor = "#444"}
-  />
-</div>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="input-container">
+        <input
+          type="text"
+          placeholder="Enter numbers separated by commas"
+          onChange={handleArrayInput}
+          value={inputArray.join(",")}
+          className="array-input"
+        />
+      </div>
+      <div className="controls">
         <button onClick={generateArray}>New Values</button>
         <button onClick={handleGlobalSort} disabled={isSorting}>Sort All</button>
         <button onClick={handleActivate}>Activate</button>
         <div>
           <label htmlFor="globalSpeed">Global Speed:</label>
-          <input type='range' min='100' max='2000' value={globalSpeed} onChange={(e) => setGlobalSpeed(Number(e.target.value))} />
+          <input
+            type="range"
+            min="100"
+            max="2000"
+            value={globalSpeed}
+            onChange={e => setGlobalSpeed(Number(e.target.value))}
+          />
           <span>{globalSpeed} ms</span>
         </div>
       </div>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: "20px",
-        marginTop: "20px",
-        gridAutoRows: "1fr"
-      }}>
+      <div className="visualizers">
         {algorithms.map(({ key, name, sortFunc }) => (
-          <div key={key} style={{
-            borderRadius: "8px",
-            padding: "5px",
-            transition: 'transform 0.3s ease',
-            transform: hoverStates[key] ? 'scale(1.05)' : 'scale(1)',
-            height: "100%",
-            overflow: "hidden"
-          }}
+          <div key={key}
+            className="visualizer"
             onMouseEnter={() => handleMouseEnter(key)}
-            onMouseLeave={() => handleMouseLeave(key)}>
+            onMouseLeave={() => handleMouseLeave(key)}
+          >
             <SortVisualizer
               algorithmName={name}
               sortingLogic={sortFunc}

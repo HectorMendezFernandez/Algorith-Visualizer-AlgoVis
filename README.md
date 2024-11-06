@@ -37,3 +37,22 @@ Install dependencies:
  ```Run the application:
    npm run start-dev
  ```
+## Usage
+- **Input an Array**: Enter a set of numbers separated by commas in the input field.
+- **Choose Sorting Algorithm**: Select one of the available algorithms.
+- **Set the Speed**: Adjust the global speed with the slider (measured in milliseconds).
+- **Visualize Sorting**: Click "Sort All" to start the sorting process or select individual sort buttons to run a single algorithm.
+- **Generate New Array**: Use the "New Values" button to generate a random array if needed.
+
+## Available Algorithms
+The application currently supports the following sorting algorithms:
+
+- **Bubble Sort**
+- **Selection Sort**
+- **Merge Sort**
+- **Quick Sort**
+- **Insertion Sort**
+- **Heap Sort**
+- **Radix Sort**
+- **Counting Sort**
+- **Tim Sort**

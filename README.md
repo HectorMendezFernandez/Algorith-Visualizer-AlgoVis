@@ -47,9 +47,9 @@ Install dependencies:
 ## Available Algorithms
 The application currently supports the following sorting algorithms:
 
-- **Bubble Sort**
-- **Selection Sort**
-- **Merge Sort**
+- **Bubble Sort**:...
+- **Selection Sort**:...
+- **Merge Sort**:...
 - **Quick Sort**
 - **Insertion Sort**
 - **Heap Sort**

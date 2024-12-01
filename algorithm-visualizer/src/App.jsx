@@ -10,7 +10,7 @@ function App() {
   const [inputArray, setInputArray] = useState(globalArray); // Array estático para el input
   // eslint-disable-next-line no-unused-vars
   const [hoverStates, setHoverStates] = useState({ bubble: false, selection: false, merge: false , quick: false, insertion:false, heap: false, radix: false, counting:false, shell:false, tim: false }); // Hover states for visualizers
-  
+  // Array of algorithms to sort
   var algorithms = [
     { key: 'bubble', name: 'Bubble Sort', sortFunc: bubbleSort },
     { key: 'selection', name: 'Selection Sort', sortFunc: selectionSort },
